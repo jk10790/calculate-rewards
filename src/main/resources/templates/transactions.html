@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Transaction Records</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<script>
+	function postTransaction() {
+		var price = $('#modalPrice').val();
+		$('#modalForm').attr('action', '/transactions/'+price);
+		$('#modalForm').submit();
+	}
+</script>
+</head>
+<body>
+
+	<div class="alert alert-danger" th:hidden="!${errorMsg}">
+		<p th:text="${errorMsh}"></p>
+	</div>
+	<div class="container">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<button type="button" class="btn btn-primary pull-right"
+					data-toggle="modal" data-target="#addModal">Add New
+					Transaction</button>
+				<h3 style="text-align: center">
+					<strong>Transaction History</strong>
+				</h3>
+
+			</div>
+			<div class="panel-body">
+
+				<div class="row"
+					th:if="${transactions == null || (transactions != null && transactions.size() == 0)}"></div>
+
+				<table class="table table-outlined table-bordered"
+					th:if="${transactions != null && transactions.size() > 0}">
+					<thead>
+						<tr>
+							<th scope="col">Id</th>
+							<th scope="col">Price</th>
+							<th scope="col">Rewards</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="transaction, stat : *{transactions}"
+							th:id="|transaction${stat.index}|">
+							<th scope="row" th:text="${transaction.transactionId}"></th>
+							<td th:text="${transaction.price}"></td>
+							<td th:text="${transaction.rewards}"></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><h4>
+									<strong>Total Rewards</strong>
+								</h4></td>
+							<td><h4>
+									<strong><span th:text="${totalRewards}"></span></strong>
+								</h4></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal" tabindex="-1" role="dialog" id="addModal">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Add New Transaction</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form action="" method="post" id="modalForm">
+						<div class="form-group">
+							<label for="modalPrice">Price:</label> <input type="text"
+								class="form-control" id="modalPrice" placeholder="Enter price">
+							<small class="form-text text-muted">Enter the Price for
+								the new Transaction.</small>
+						</div>
+						<button type="submit" class="btn btn-primary"
+							onClick="postTransaction();">Add</button>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary">Save changes</button>
+					<button type="submit" class="btn btn-secondary"
+						data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
