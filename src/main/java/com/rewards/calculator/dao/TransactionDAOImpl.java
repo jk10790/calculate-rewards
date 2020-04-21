@@ -22,11 +22,13 @@ public class TransactionDAOImpl implements TransactionDAO {
 
     private List<Transaction> transactions;
 
+    // This is invoked after a bean is created for this class and all the
+    // transactions from dataset are loaded and stored.
     @PostConstruct
     public void loadTransactions() {
-	log.info("Loading transaction data from file on applciation startup");
+	log.info("****** Loading transaction data from file on applciation startup ***************8");
 	this.transactions = helper.loadTransactions();
-	log.info("Loaded " + transactions.size() + " Transactions");
+	log.info("Loaded " + transactions.size() + " Transaction Records from the Dataset");
     }
 
     @Override
@@ -34,6 +36,8 @@ public class TransactionDAOImpl implements TransactionDAO {
 	return this.transactions;
     }
 
+    // The life of a new transaction is until the server is bounced
+    // Once it is bounced, all the new transactions are cleared.
     @Override
     public List<Transaction> addNewTransaction(Double price) throws Exception {
 	Double rewards = helper.calculateRewards(price);

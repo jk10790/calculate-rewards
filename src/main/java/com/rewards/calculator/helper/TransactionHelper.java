@@ -25,17 +25,25 @@ public class TransactionHelper implements AutoCloseable {
 
     private Double totalRewards = 0.0;
 
+    // This method reads the 'Transaction_Dataset.txt' file from the classpath and
+    // parses through each line
+    // And maps the input stream of each line to a Transaction object
     public List<Transaction> loadTransactions() {
 	try (Stream<String> lines = Files.lines(Paths.get(resource.getURI()))) {
 
 	    return lines.filter(l -> l.startsWith("Transaction id:")).map(line -> {
 		Integer transactionId = Integer
 			.parseInt(StringUtils.substringBetween(line, "Transaction id:", "Price:").trim());
+		
 		Double price = Double
 			.parseDouble(StringUtils.substringBetween(line, "Price: $", "Reward points:").trim());
+		
 		Double rewards = Double.parseDouble(StringUtils.substringAfter(line, "Reward points:").trim());
-		totalRewards = getTotalRewards() + rewards;
+		
 		Transaction transaction = new Transaction(transactionId, price, rewards);
+		//Calculate total rewards for all the transactions
+		addToRewards(rewards);
+		
 		return transaction;
 	    }).collect(Collectors.toList());
 

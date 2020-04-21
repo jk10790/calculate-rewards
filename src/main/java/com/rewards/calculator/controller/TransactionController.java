@@ -23,6 +23,8 @@ public class TransactionController {
     @Autowired
     TransactionHelper helper;
 
+    
+    //This can be accessed by either 'localhost:8080/' or 'localhost:8080/transactions'
     @GetMapping(value = {"/", "/transactions"})
     public String getTransactionRecords(Model model) {
 	try {

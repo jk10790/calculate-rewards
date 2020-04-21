@@ -7,19 +7,21 @@ A customer receives 2 points for every dollar spent over $100 in each transactio
 ## Functionality
    
  The application loads a pre-defined list of transactions from a dataset "Transaction_Dataset.txt" and calculates rewards earned 
- for each transaction before displaying the records on the screen
+ for each transaction before displaying the records on the screen. 
+ And total rewards for all transactions are also displayed at the end of the table.
  
-New transactions can be added to the list by simply clicking the "Add New Transaction" button on html page.
+ New transactions can be added to the list by simply clicking the "Add New Transaction" button on html page.
     ## A pop-up appears and only a price of the transaction needs to be entered.
+    ## Note: Any new Transaction added will only show up at the end of the list until the application server is bounced, 
+    		 and will be cleared on bounce.
     
 ## Steps to Run the application
 
   Clone the repo into your workspace and run the application as spring boot application.
   
   Application can be accessed through 
-    [http://localhost:8080/transactions](http://localhost:8080/transactions)
+    [http://localhost:8080/](http://localhost:8080/)
     
-    
-## Note: Application only has test cases for the reward calculation business logic currently, need to add more cases
+
 
 # calculate-rewards
